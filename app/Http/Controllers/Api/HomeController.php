@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $dbs = new \PDO('mysql:host=12.0.0.1;dbname=wxsmall','wxsmall','wxsmall!@#');
+        $dbs = new \PDO('mysql:host=127.0.0.1;dbname=wxsmall','wxsmall','wxsmall!@#');
         var_dump($dbs);
     }
 }
