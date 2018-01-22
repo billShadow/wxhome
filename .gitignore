@@ -1,0 +1,9 @@
+/node_modules
+/public/users*
+/storage/*.key
+/vendor
+/.env
+/composer.lock
+/.DS_Store*
+/.idea
+public/.htaccess
