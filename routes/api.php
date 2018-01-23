@@ -22,5 +22,5 @@ Route::group(['prefix'=>'home'], function(){
 });
 
 Route::group(['prefix'=>'music'], function(){
-    Route::any('musiclist', 'Api\HomeController@index');
+    Route::any('musiclist', 'Api\MusicController@musiclist');
 });
