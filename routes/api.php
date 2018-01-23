@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'home'], function(){
     Route::any('home', 'Api\HomeController@index');
 });
+
+Route::group(['prefix'=>'music'], function(){
+    Route::any('lists', 'Api\HomeController@index');
+});
