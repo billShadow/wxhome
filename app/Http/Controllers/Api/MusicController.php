@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 class MusicController extends Controller
 {
-    public function lists()
+    public function musiclist()
     {
         echo 1;die;
         $list = [
