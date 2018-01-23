@@ -6,13 +6,10 @@ if (! function_exists('fun_respon')) {
      */
     function fun_respon($success, $res = [], $code = 200)
     {
-        $result['result'] = $success;
-
+        $result['code'] = $code;
         if ($success == 200) {
-            $result['code'] = $code;
             $result['data'] = $res;
         } else {
-            $result['code'] = $code;
             $result['error'] = $res;
         }
         header("Content-Type: application/json; charset=UTF-8");
