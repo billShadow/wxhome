@@ -32,6 +32,7 @@ class LoginController extends Controller
             if ( property_exists($array_user, 'session_key')) {
                 $userDatas = $wechatclass->decryptData($array_user->session_key, $iv, $cryptData);
                 $userData = json_decode($userDatas, true);
+                var_dump($userData);die;
                 $add_data = [
                     'nickname' => $userData['nickName'],
                     'openid' => $userData['openId'],
