@@ -10,13 +10,13 @@ namespace App\Libs\WeChat;
 use Ixudra\Curl\Facades\Curl;
 
 class WxSmallClient {
-    private static $WX_URL    = 'https://api.weixin.qq.com';
+    public $WX_URL    = 'https://api.weixin.qq.com';
     private $WX_APP_ID = '';
     private $WX_SECRET = '';
 
     public function __construct()
     {
-        $this->c = env('XCX_APP_ID');
+        $this->WX_APP_ID = env('XCX_APP_ID');
         $this->WX_SECRET = env('XCX_SECRET');
     }
 
@@ -32,7 +32,7 @@ class WxSmallClient {
             "grant_type" => 'authorization_code'
         ];
 
-        $url = self::$WX_URL . '/sns/jscode2session?appid='.$this->WX_APP_ID.'&secret='.$this->WX_SECRET
+        $url = $this->WX_URL . '/sns/jscode2session?appid='.$this->WX_APP_ID.'&secret='.$this->WX_SECRET
 .'&js_code='.$code.'&grant_type=authorization_code';
         $res = $this->fun_curl($url);
         return $res;
