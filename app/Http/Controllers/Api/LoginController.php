@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Libs\WeChat\WxSmallClient;
+use App\Models\users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -23,14 +24,31 @@ class LoginController extends Controller
         if (!is_object($array_user)) {
             fun_respon(0, '网络异常请重试');
         }
-        if ( property_exists($array_user, 'session_key')) {
-            $userDatas = $wechatclass->decryptData($array_user->session_key, $iv, $cryptData);
-            $userData = json_decode($userDatas, true);
-            fun_respon(1, $userData);
+        $is_sign = users::where('openid', $array_user->openid)->first();
+        if ($is_sign) {
+            fun_respon(1, '注册成功!');
         } else {
-            var_dump($array_user);
-            fun_respon(0, '解码失败');
+            // 查询到
+            if ( property_exists($array_user, 'session_key')) {
+                $userDatas = $wechatclass->decryptData($array_user->session_key, $iv, $cryptData);
+                $userData = json_decode($userDatas, true);
+                $add_data = [
+                    'nickname' => $userData['nickName'],
+                    'openid' => $userData['openId'],
+                    'unionid' => $userData['unionId'],
+                    'gender' => $userData['gender'],
+                    'province' => $userData['province'],
+                    'city' => $userData['city'],
+                    'avatar_url' => $userData['avatarUrl']
+                ];
+                $res = users::insert($add_data);
+                if (!$res) fun_respon(0, '注册失败');
+                fun_respon(1, $userData);
+            } else {
+                fun_respon(0, '解码失败');
+            }
         }
+
     }
 
 }
