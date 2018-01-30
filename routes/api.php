@@ -24,3 +24,7 @@ Route::group(['prefix'=>'home'], function(){
 Route::group(['prefix'=>'music'], function(){
     Route::any('musiclist', 'Api\MusicController@musiclist');
 });
+
+Route::group(['prefix'=>'login'], function(){
+    Route::any('login', 'Api\LoginController@login');
+});
