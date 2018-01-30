@@ -48,7 +48,8 @@ class WXBizDataCrypt
         }
         $aesIV=base64_decode($iv);
 
-        $aesCipher=base64_decode($encryptedData);
+        //$aesCipher=base64_decode($encryptedData);
+        $aesCipher=$encryptedData;
 
         //$pc = new \Prpcrypt($aesKey);
         //$result = $pc->decrypt($aesCipher,$aesIV);
@@ -78,13 +79,15 @@ class WXBizDataCrypt
     public function decrypt( $aesCipher, $aesIV, $key )
     {
         try {
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
+            /*$module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             mcrypt_generic_init($module, $key, $aesIV);
 
             //解密
             $decrypted = mdecrypt_generic($module, $aesCipher);
             mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            mcrypt_module_close($module);*/
+
+            $decrypted = openssl_decrypt($aesCipher,'AES-128-CBC',$key,OPENSSL_ZERO_PADDING,$aesIV);
         } catch (Exception $e) {
             return array(self::$IllegalBuffer, null);
         }
