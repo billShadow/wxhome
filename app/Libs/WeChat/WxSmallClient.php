@@ -25,14 +25,17 @@ class WxSmallClient {
         if (empty($code)) {
             return false;
         }
-        return Curl::to( self::$WX_URL . '/sns/jscode2session')
-            ->withData([
-                'appid'      => $this->WX_APP_ID,
-                'secret'     =>  $this->WX_SECRET,
-                'js_code'    => $code,
-                'grant_type' => 'authorization_code'
-            ])
-            ->get();
+        $param = [
+            "appid" => $this->WX_APP_ID,
+            "secret" => $this->WX_SECRET,
+            "js_code" => $this->$code,
+            "grant_type" => 'authorization_code'
+        ];
+
+        $url = self::$WX_URL . '/sns/jscode2session?appid='.$this->WX_APP_ID.'&secret='.$this->WX_SECRET
+.'&js_code='.$code.'&grant_type=authorization_code';
+        $res = $this->fun_curl($url);
+        return $res;
     }
 
     /**
@@ -49,5 +52,16 @@ class WxSmallClient {
         } else {
             return $rs;
         }
+    }
+
+    public function fun_curl($url){
+        $ch = curl_init();
+        //print_r($ch);
+        curl_setopt( $ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60); //设置超时
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        $return = curl_exec ( $ch );
+        curl_close ( $ch );
+        return $return;
     }
 }
