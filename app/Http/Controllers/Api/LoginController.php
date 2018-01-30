@@ -17,15 +17,16 @@ class LoginController extends Controller
         if (empty($code) || empty($iv) || empty($cryptData)) {
             fun_respon(0, '缺少参数');
         }
-        $rs = WxSmallClient::getSessionKey($code);
+        $wechatclass = new WxSmallClient();
+        $rs = $wechatclass->getSessionKey($code);
         $array_user = json_decode($rs);
         if (!is_object($array_user)) {
             fun_respon(0, '网络异常请重试');
         }
         if ( property_exists($array_user, 'session_key')) {
-            $userDatas = WxSmallClient::decryptData($array_user->session_key, $iv, $cryptData);
+            $userDatas = $wechatclass->decryptData($array_user->session_key, $iv, $cryptData);
             $userData = json_decode($userDatas, true);
-            var_dump($userData);
+            fun_respon(1, $userData);
         } else {
             var_dump($array_user);
             fun_respon(0, '解码失败');
