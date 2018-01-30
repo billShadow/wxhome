@@ -25,13 +25,6 @@ class WxSmallClient {
         if (empty($code)) {
             return false;
         }
-        $param = [
-            "appid" => $this->WX_APP_ID,
-            "secret" => $this->WX_SECRET,
-            "js_code" => $this->$code,
-            "grant_type" => 'authorization_code'
-        ];
-
         $url = $this->WX_URL . '/sns/jscode2session?appid='.$this->WX_APP_ID.'&secret='.$this->WX_SECRET
 .'&js_code='.$code.'&grant_type=authorization_code';
         $res = $this->fun_curl($url);
